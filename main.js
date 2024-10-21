@@ -33,23 +33,14 @@ const scene = new THREE.Scene();
 
 
 // Model
+let watering;
 modelLoader.load('models/watering/watering_can_metal_01.gltf', 
   (gltf)=>{
     // aixo se crida quan el model esta carregat
     const model = gltf.scene;
-
-    scene.add(model);
-    function animate(){
-      const currentTime = Date.now();
-      const deltaTime = currentTime - time;
-      time = currentTime;
-      model.rotateX(0.01 * deltaTime);
-      model.rotateY(0.01 * deltaTime);
-      renderer.render(scene,camera);
-      requestAnimationFrame(animate);
-    }
-    
-    animate();
+    watering = model
+    watering.scale.set(5,5,5);
+    scene.add(watering);
 
   },
 (xhr)=>{
@@ -84,7 +75,7 @@ camera.lookAt(cube.position);
 
 
 // Luz
-const llumGlobal = new THREE.DirectionalLight( 0xffffff, 5);
+const llumGlobal = new THREE.DirectionalLight( 0x999999, 5);
 llumGlobal.rotateX(45);
 llumGlobal.rotateY(60);
 llumGlobal.castShadow = true
@@ -100,8 +91,11 @@ function animate(){
   const deltaTime = currentTime - time;
   time = currentTime;
   ////////
-  cube.rotateX(0.001 * deltaTime);
-  cube.rotateY(0.001 * deltaTime);
+  //cube.rotateX(0.001 * deltaTime);
+  //cube.rotateY(0.001 * deltaTime);
+  //watering.rotateX(0.001 * deltaTime);
+  watering.rotateY(0.001 * deltaTime);
+  watering.rotateX(0.001 * deltaTime);
   //cube.rotateZ(0.01);
   //////
   renderer.render(scene,camera);
