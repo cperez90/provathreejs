@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+//import { texture, TextureLoader } from 'three/webgpu';
 
 const width = window.innerWidth;
 const height = window.innerHeight;
@@ -11,10 +12,56 @@ renderer.setAnimationLoop(animate);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
+// Textures
+const textureLoader = new THREE.TextureLoader();
+
+// Model
+const modelLoader = new GLTFLoader();
+
 document.querySelector('body').appendChild(renderer.domElement);
+
+
+// Textures
+const redBrick = "textures/brick/red_brick_diff.jpg"
+const roughBrick = "textures/brick/rough_block_wall_diff.jpg"
+
+const redBrickTexture = textureLoader.load(redBrick);
+const roughBrickTexture = textureLoader.load(roughBrick);
 
 const camera = new THREE.PerspectiveCamera(75,width/height,0.1,1000);
 const scene = new THREE.Scene();
+
+
+// Model
+modelLoader.load('models/watering/watering_can_metal_01.gltf', 
+  (gltf)=>{
+    // aixo se crida quan el model esta carregat
+    const model = gltf.scene;
+
+    scene.add(model);
+    function animate(){
+      const currentTime = Date.now();
+      const deltaTime = currentTime - time;
+      time = currentTime;
+      model.rotateX(0.01 * deltaTime);
+      model.rotateY(0.01 * deltaTime);
+      renderer.render(scene,camera);
+      requestAnimationFrame(animate);
+    }
+    
+    animate();
+
+  },
+(xhr)=>{
+  // aixo es fa a cada iteracio de carrega
+  console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+},
+(error)=>{
+  // aixo es crida quan hi a un error en la carrega
+}
+);
+
+
 
 // controls
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -22,19 +69,22 @@ const controls = new OrbitControls(camera, renderer.domElement);
 // Cub
 const cubeGeo = new THREE.BoxGeometry( 2, 2, 2 ); 
 const cubeMat = new THREE.MeshStandardMaterial({
-  color: 0xff0000
+  //color: 0xff0000
+  map: roughBrickTexture
 }); 
 const cube = new THREE.Mesh( cubeGeo, cubeMat ); 
 cube.castShadow = true;
-scene.add(cube);
+//scene.add(cube);
 
 //camera.position.z = 5;
 camera.position.set(10 ,5 ,10);
 camera.lookAt(cube.position);
 
 
+
+
 // Luz
-const llumGlobal = new THREE.DirectionalLight( 0xff0000, 5);
+const llumGlobal = new THREE.DirectionalLight( 0xffffff, 5);
 llumGlobal.rotateX(45);
 llumGlobal.rotateY(60);
 llumGlobal.castShadow = true
