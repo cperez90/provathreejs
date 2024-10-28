@@ -97,7 +97,7 @@ function animate(){
   //cube.rotateX(0.001 * deltaTime);
   //cube.rotateY(0.001 * deltaTime);
   //watering.rotateX(0.001 * deltaTime);
-  watering.rotateY(0.001 * deltaTime);
+  //watering.rotateY(0.001 * deltaTime);
   watering.rotateX(0.001 * deltaTime);
   //cube.rotateZ(0.01);
   //////
