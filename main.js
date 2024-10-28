@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { RGBELoader } from "";
 //import { texture, TextureLoader } from 'three/webgpu';
 
 const width = window.innerWidth;
@@ -8,12 +9,14 @@ const height = window.innerHeight;
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(width,height);
-renderer.setAnimationLoop(animate);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 // Textures
 const textureLoader = new THREE.TextureLoader();
+
+//HDR
+
 
 // Model
 const modelLoader = new GLTFLoader();
@@ -100,7 +103,7 @@ function animate(){
   //////
   renderer.render(scene,camera);
 }
-
+renderer.setAnimationLoop(animate);
 // Plane
 const planeGeometry = new THREE.PlaneGeometry(20,20,60);
 const planeMaterial = new THREE.MeshStandardMaterial({color: 0x00f00f});
