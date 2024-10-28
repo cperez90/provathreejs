@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { RGBELoader } from "";
+//import { RGBELoader } from "";
 //import { texture, TextureLoader } from 'three/webgpu';
 
 const width = window.innerWidth;
